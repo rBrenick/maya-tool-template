@@ -42,7 +42,10 @@ class TOOL_NAMEWindow(UI_FILE_MAIN_FORM, UI_FILE_MAIN_BASE):
         pass
 
     def setup_connections(self):
-        pass
+        self.BTN_example.clicked.connect(self.example_function)
+
+    def example_function(self):
+        print("EXAMPLE_BUTTON")
 
 
 def main():
