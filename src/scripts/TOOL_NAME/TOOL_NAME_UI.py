@@ -15,16 +15,18 @@ reload(ui_utils)
 import pymel.core as pm
 
 # Tool
-from . import tool_utils
-reload(tool_utils)
+from . import TOOL_NAME_utils
+reload(TOOL_NAME_utils)
 
 
 # Load UI
-ui_file_main = os.path.join(os.path.dirname(__file__), "ui_files", "dialog.ui")
-pform_main, pbase_main = ui_utils.load_ui_types(ui_file_main)
+UI_FILES_FOLDER = os.path.join(os.path.dirname(__file__), "ui_files")
+
+UI_FILE_MAIN = os.path.join(UI_FILES_FOLDER, "TOOL_NAME_dialog.ui")
+UI_FILE_MAIN_FORM, UI_FILE_MAIN_BASE = ui_utils.load_ui_types(UI_FILE_MAIN)
 
 
-class TOOL_NAMEWindow(pform_main, pbase_main):
+class TOOL_NAMEWindow(UI_FILE_MAIN_FORM, UI_FILE_MAIN_BASE):
     def __init__(self, parent=ui_utils.get_top_window()):
         ui_utils.delete_window(self)
         super(TOOL_NAMEWindow, self).__init__(parent)
