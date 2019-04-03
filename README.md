@@ -9,7 +9,7 @@ Requires Qt.py
 # Install options
 
 <pre>
-Run install_maya_mod.bat (will create a .mod file in your maya/modules folder)
+Run installer.bat (will walk trough some options for install)
 Restart Maya
 </pre>
 
