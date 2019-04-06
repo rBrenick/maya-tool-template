@@ -42,7 +42,7 @@ $NEW_VERSION_ZIP_FOLDER = $USER_DOWNLOADS_FOLDER + "\" + $CURRENT_TOOL_NAME + "_
 SafeRemove $NEW_VERSION_ZIP
 SafeRemove $NEW_VERSION_ZIP_FOLDER
 
-# Prompt at start just in case it was a misstype
+# Prompt at start just in case it was a mistype
 $caption = "Get Latest Version";
 $message = "This action will remove and rebuild the tool folders. `nAny changes to the scripts inside will be lost.`nContinue?`n ";
 $Yes = new-Object System.Management.Automation.Host.ChoiceDescription "&Yes", "Yes";
