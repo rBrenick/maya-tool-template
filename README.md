@@ -1,4 +1,4 @@
-# maya-tool-template
+# TOOL_NAME
 Template for a basic Qt tool in Maya
 
 ![tool header image](docs/header_image.png)
@@ -6,10 +6,11 @@ Template for a basic Qt tool in Maya
 Requires Qt.py
 
 
-# Install options
+# Install
 
 <pre>
-Run installer.bat (will walk trough some options for install)
+Download this package and unzip it in a good location (or git clone it directly if you have git installed)
+Run installer.bat (will walk you through some options for install)
 Restart Maya
 </pre>
 
