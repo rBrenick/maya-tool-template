@@ -51,8 +51,8 @@ $choices = [System.Management.Automation.Host.ChoiceDescription[]]($Yes, $No);
 $answer = $host.ui.PromptForChoice($caption,$message,$choices,0)
 
 switch ($answer){
-    0 {"You entered Yes";}
-    1 {""; exit}
+    0 {"Starting Update...";}
+    1 {"Cancelling Update..."; exit}
 }
 
 # ------------------------------------------------
