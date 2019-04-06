@@ -9,7 +9,7 @@ ECHO.
 
 ECHO 1. Install
 ECHO 2. Uninstall
-ECHO 3. Update tool to latest
+ECHO 3. Get Latest version of tool
 ECHO.
 ECHO Advanced:
 ECHO 4. Make New Tool from TOOL_NAME
@@ -30,9 +30,7 @@ CALL _install_\uninstall_maya_module.bat
 GOTO END
 
 :GetLatest
-ECHO.
-ECHO Latest Version: 
-ECHO Current Version: 
+Powershell.exe -executionpolicy remotesigned -File  _install_\get_latest_version.ps1
 GOTO END
 
 
