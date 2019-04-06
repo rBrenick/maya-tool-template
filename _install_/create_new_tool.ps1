@@ -12,6 +12,12 @@ $NEW_TOOL_FOLDER = $TOOL_PACKAGES_FOLDER + "\" + $NEW_TOOL_NAME
 
 echo ""
 
+if (([string]::IsNullOrEmpty($NEW_TOOL_NAME)))
+{
+    echo "No tool name was given. Exiting...`n "
+    exit
+}
+
 # Clone to new folder
 Copy-Item -Path $CURRENT_TOOL_FOLDER -Recurse -Destination $NEW_TOOL_FOLDER -Container
 
