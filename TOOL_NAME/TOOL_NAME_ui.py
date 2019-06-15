@@ -5,16 +5,17 @@ __modified__ = "2019-04-06"
 
 # Standard
 import os
+import sys
 
 # UI
-from . import ui_utils
-from ui_utils import QtCore, QtWidgets
+from TOOL_NAME.ui import ui_utils
+from TOOL_NAME.ui.ui_utils import QtCore, QtWidgets
 
-# Maya
-import pymel.core as pm
+# DCC
+# import pymel.core as pm
 
 # Tool
-from . import TOOL_NAME_utils
+from TOOL_NAME import TOOL_NAME_utils
 
 
 class TOOL_NAMEWindow(ui_utils.BaseWindow):
@@ -35,8 +36,21 @@ class TOOL_NAMEWindow(ui_utils.BaseWindow):
 
 
 def main():
-    return TOOL_NAMEWindow()
+    try:
+        app = QtWidgets.QApplication(sys.argv)
+    except:
+        app = None
+    
+    win = TOOL_NAMEWindow()
+    
+    if app:
+        sys.exit(app.exec_())
+    
+    return win
 
 
 if __name__ == '__main__':
     main()
+    
+    
+

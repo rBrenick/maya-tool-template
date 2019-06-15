@@ -1,4 +1,4 @@
-# TOOL_NAME
+# RAW_TOOL_NAME
 Template for a basic Qt tool in Maya
 
 ![tool header image](docs/header_image.png)
@@ -18,7 +18,7 @@ Template for a basic Qt tool in Maya
 
 <pre>
 
-from TOOL_NAME import TOOL_NAME_UI
-TOOL_NAME_UI.main()
+from TOOL_NAME import TOOL_NAME_ui
+TOOL_NAME_ui.main()
 
 </pre>

@@ -3,16 +3,16 @@
 CLS
 
 ECHO Welcome to TOOL_NAME
-ECHO Here are the options for install
+ECHO Here are the options
 ECHO.
 
 
-ECHO 1. Install
-ECHO 2. Uninstall
-ECHO 3. Get Latest version of tool
+ECHO    1 = Install
+ECHO    2 = Uninstall
+ECHO    3 = Get Latest version of tool
 ECHO.
 ECHO Advanced:
-ECHO 4. Make New Tool from TOOL_NAME
+ECHO    4 = Make New Tool from TOOL_NAME
 
 ECHO.
 SET /P AREYOUSURE=Choice: 

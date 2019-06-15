@@ -1,6 +1,7 @@
 
 # Standard
 import os
+import sys
 
 # Not even going to pretend to have Maya 2016 support
 from PySide2 import QtCore
@@ -10,8 +11,8 @@ from shiboken2 import wrapInstance
 from PySide2 import QtUiTools
 
 
-UI_FILES_FOLDER = os.path.join(os.path.dirname(__file__), "ui_files")
-ICON_FOLDER = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "icons") # boy that's a lot of dirname
+UI_FILES_FOLDER = os.path.dirname(__file__)
+ICON_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), "icons")
 """
 QT UTILS BEGIN
 """
@@ -22,27 +23,35 @@ def get_app_window():
         from maya import OpenMayaUI as omui
         maya_main_window_ptr = omui.MQtUtil().mainWindow()
         top_window = wrapInstance(long(maya_main_window_ptr), QtWidgets.QMainWindow)
-    except ImportError, e:
+    except ImportError as e:
         pass
     return top_window
 
 
 def delete_window(object_to_delete):
-    for widget in QtWidgets.QApplication.instance().topLevelWidgets():
+    qApp = QtWidgets.QApplication.instance()
+    if not qApp:
+        return
+        
+    for widget in qApp.topLevelWidgets():
         if "__class__" in dir(widget):
             if str(widget.__class__) == str(object_to_delete.__class__):
                 widget.deleteLater()
                 widget.close()
 
 
-def load_ui_file(ui_file_name, widget):
+def load_ui_file(ui_file_name):
     ui_file_path = os.path.join(UI_FILES_FOLDER, ui_file_name) # get full path
+    if not os.path.exists(ui_file_path):
+        sys.stdout.write("UI FILE NOT FOUND: {}\n".format(ui_file_path))
+        return None
+        
+    ui_file = QtCore.QFile(ui_file_path)
+    ui_file.open(QtCore.QFile.ReadOnly)
     loader = QtUiTools.QUiLoader()
-    uifile = QtCore.QFile(ui_file_path)
-    uifile.open(QtCore.QFile.ReadOnly)
-    ui = loader.load(uifile)
-    uifile.close()
-    return ui
+    window = loader.load(ui_file)
+    ui_file.close()
+    return window
 
 
 def create_qicon(icon_path):
@@ -60,7 +69,6 @@ class BaseWindow(QtWidgets.QMainWindow):
         delete_window(self)
         super(BaseWindow, self).__init__(parent)
         
-        self.ui_parent = parent
         self.ui = None
         if ui_file_name:
             self.load_ui(ui_file_name)
@@ -75,15 +83,19 @@ class BaseWindow(QtWidgets.QMainWindow):
             self.setWindowIcon(icon)
     
     def load_ui(self, ui_file_name):
-        self.ui = load_ui_file(ui_file_name, self)
+        self.ui = load_ui_file(ui_file_name)
         self.setGeometry(self.ui.rect())
         self.setWindowTitle(self.ui.property("windowTitle"))
         self.setCentralWidget(self.ui)
         
-        maya_window_center = self.ui_parent.mapToGlobal(self.ui_parent.rect().center())
-        window_offset_x = maya_window_center.x() - self.geometry().width()/2
-        window_offset_y = maya_window_center.y() - self.geometry().height()/2
-        self.move(window_offset_x, window_offset_y) # move to maya screen center
+        parent_window = self.parent()
+        if not parent_window:
+            return
+        
+        dcc_window_center = parent_window.mapToGlobal(parent_window.rect().center())
+        window_offset_x = dcc_window_center.x() - self.geometry().width()/2
+        window_offset_y = dcc_window_center.y() - self.geometry().height()/2
+        self.move(window_offset_x, window_offset_y) # move to dcc screen center
 
 
 """

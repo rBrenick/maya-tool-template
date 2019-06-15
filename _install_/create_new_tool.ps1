@@ -6,13 +6,16 @@
 
 $TOOL_PACKAGES_FOLDER = (Get-Item -Path "..\").FullName
 $CURRENT_TOOL_NAME = "TOOL_NAME"
+$CURRENT_TOOL_NAME_RAW = "RAW_TOOL_NAME"
 $CURRENT_TOOL_FOLDER = (Get-Item -Path ".").FullName
-$NEW_TOOL_NAME = Read-Host -Prompt 'New Tool Name'
-$NEW_TOOL_FOLDER = $TOOL_PACKAGES_FOLDER + "\" + $NEW_TOOL_NAME
+$NEW_TOOL_NAME_RAW = Read-Host -Prompt 'New Tool Name'
+$NEW_TOOL_NAME_CLEAN = $NEW_TOOL_NAME_RAW.replace("-","_")
+$NEW_TOOL_FOLDER = $TOOL_PACKAGES_FOLDER + "\" + $NEW_TOOL_NAME_RAW
 
 echo ""
+echo $NEW_TOOL_NAME_CLEAN
 
-if (([string]::IsNullOrEmpty($NEW_TOOL_NAME)))
+if (([string]::IsNullOrEmpty($NEW_TOOL_NAME_RAW)))
 {
     echo "No tool name was given. Exiting...`n "
     exit
@@ -34,7 +37,7 @@ if(Test-Path -Path $GIT_FOLDER ){
 Get-ChildItem $NEW_TOOL_FOLDER -recurse | 
 Foreach-Object {
     if ($_.Name -like '*' + $CURRENT_TOOL_NAME + '*') {
-        Rename-Item -Path $_.PSPath -NewName $_.Name.replace($CURRENT_TOOL_NAME, $NEW_TOOL_NAME)
+        Rename-Item -Path $_.PSPath -NewName $_.Name.replace($CURRENT_TOOL_NAME, $NEW_TOOL_NAME_CLEAN)
     }
     
 }
@@ -45,13 +48,14 @@ Foreach-Object {
     
     $_.FullName
     
-    ((Get-Content -path $_.FullName -Raw) -replace $CURRENT_TOOL_NAME, $NEW_TOOL_NAME) | Set-Content -Path $_.FullName
-    ((Get-Content -path $_.FullName -Raw) -replace "maya-tool-template", $NEW_TOOL_NAME) | Set-Content -Path $_.FullName
+    ((Get-Content -path $_.FullName -Raw) -replace $CURRENT_TOOL_NAME_RAW, $NEW_TOOL_NAME_RAW) | Set-Content -Path $_.FullName
+    ((Get-Content -path $_.FullName -Raw) -replace $CURRENT_TOOL_NAME, $NEW_TOOL_NAME_CLEAN) | Set-Content -Path $_.FullName
+    ((Get-Content -path $_.FullName -Raw) -replace "maya-tool-template", $NEW_TOOL_NAME_CLEAN) | Set-Content -Path $_.FullName
     
 }
 
 echo ""
-echo "New Tool: '$NEW_TOOL_NAME' has been created at '$NEW_TOOL_FOLDER'"
+echo "New Tool: '$NEW_TOOL_NAME_RAW' has been created at '$NEW_TOOL_FOLDER'"
 
 
 # pause before exit
