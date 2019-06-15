@@ -5,17 +5,17 @@
 # searches through files and replaces in there as well
 
 $TOOL_PACKAGES_FOLDER = (Get-Item -Path "..\").FullName
-$CURRENT_TOOL_NAME = "TOOL_NAME"
-$CURRENT_TOOL_NAME_RAW = "RAW_TOOL_NAME"
+$CURRENT_TOOLNAME = "TOOL_NAME"
+$CURRENT_TOOLNAME_RAW = "RAW_TOOL_NAME"
 $CURRENT_TOOL_FOLDER = (Get-Item -Path ".").FullName
-$NEW_TOOL_NAME_RAW = Read-Host -Prompt 'New Tool Name'
-$NEW_TOOL_NAME_CLEAN = $NEW_TOOL_NAME_RAW.replace("-","_")
-$NEW_TOOL_FOLDER = $TOOL_PACKAGES_FOLDER + "\" + $NEW_TOOL_NAME_RAW
+$NEW_TOOLNAME_RAW = Read-Host -Prompt 'New Tool Name'
+$NEW_TOOLNAME_CLEAN = $NEW_TOOLNAME_RAW.replace("-","_")
+$NEW_TOOL_FOLDER = $TOOL_PACKAGES_FOLDER + "\" + $NEW_TOOLNAME_RAW
 
 echo ""
-echo $NEW_TOOL_NAME_CLEAN
+echo $NEW_TOOLNAME_CLEAN
 
-if (([string]::IsNullOrEmpty($NEW_TOOL_NAME_RAW)))
+if (([string]::IsNullOrEmpty($NEW_TOOLNAME_RAW)))
 {
     echo "No tool name was given. Exiting...`n "
     exit
@@ -36,8 +36,8 @@ if(Test-Path -Path $GIT_FOLDER ){
 # Rename files in folder
 Get-ChildItem $NEW_TOOL_FOLDER -recurse | 
 Foreach-Object {
-    if ($_.Name -like '*' + $CURRENT_TOOL_NAME + '*') {
-        Rename-Item -Path $_.PSPath -NewName $_.Name.replace($CURRENT_TOOL_NAME, $NEW_TOOL_NAME_CLEAN)
+    if ($_.Name -like '*' + $CURRENT_TOOLNAME + '*') {
+        Rename-Item -Path $_.PSPath -NewName $_.Name.replace($CURRENT_TOOLNAME, $NEW_TOOLNAME_CLEAN)
     }
     
 }
@@ -48,14 +48,14 @@ Foreach-Object {
     
     $_.FullName
     
-    ((Get-Content -path $_.FullName -Raw) -replace $CURRENT_TOOL_NAME_RAW, $NEW_TOOL_NAME_RAW) | Set-Content -Path $_.FullName
-    ((Get-Content -path $_.FullName -Raw) -replace $CURRENT_TOOL_NAME, $NEW_TOOL_NAME_CLEAN) | Set-Content -Path $_.FullName
-    ((Get-Content -path $_.FullName -Raw) -replace "maya-tool-template", $NEW_TOOL_NAME_CLEAN) | Set-Content -Path $_.FullName
+    ((Get-Content -path $_.FullName -Raw) -replace $CURRENT_TOOLNAME_RAW, $NEW_TOOLNAME_RAW) | Set-Content -Path $_.FullName
+    ((Get-Content -path $_.FullName -Raw) -replace $CURRENT_TOOLNAME, $NEW_TOOLNAME_CLEAN) | Set-Content -Path $_.FullName
+    ((Get-Content -path $_.FullName -Raw) -replace "maya-tool-template", $NEW_TOOLNAME_CLEAN) | Set-Content -Path $_.FullName
     
 }
 
 echo ""
-echo "New Tool: '$NEW_TOOL_NAME_RAW' has been created at '$NEW_TOOL_FOLDER'"
+echo "New Tool: '$NEW_TOOLNAME_RAW' has been created at '$NEW_TOOL_FOLDER'"
 
 
 # pause before exit
