@@ -18,7 +18,7 @@ Template for a basic Qt tool in Maya
 
 <pre>
 
-from TOOL_NAME import TOOL_NAME_ui
-TOOL_NAME_ui.main()
+import TOOL_NAME
+TOOL_NAME.main()
 
 </pre>
